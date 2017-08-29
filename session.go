@@ -7,8 +7,8 @@ import "net/http"
 type Session struct {
 }
 
-// The httpDo function runs the HTTP request and processes its response in a new goroutine.
-func httpDo(ctx context.Context, request *http.Request, processResponse func(*http.Response, error) error) error {
+// HTTPDo function runs the HTTP request and processes its response in a new goroutine.
+func HTTPDo(ctx context.Context, request *http.Request, processResponse func(*http.Response, error) error) error {
 	// Run the HTTP request in a goroutine and pass the response to processResponse.
 	transport := &http.Transport{}
 	client := &http.Client{Transport: transport}

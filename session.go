@@ -2,7 +2,9 @@ package krakenGo
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
+	"time"
 )
 
 // SessionContextKey is the key-type vor the context
@@ -49,4 +51,30 @@ func HTTPDo(ctx context.Context, request *http.Request, processResponse func(*ht
 	case err := <-errorChannel:
 		return err
 	}
+}
+
+// impl httpdo with GET-methode
+func (session *SessionContext) getHTTPDo(wrapper interface{}, route string) error {
+	// create http-Context
+	httpContext, cancelFunc := context.WithTimeout(session, 15*time.Second)
+	defer cancelFunc()
+
+	// build request
+	request, err := http.NewRequest("GET", session.Value(HostSessionContextKey).(string)+route, nil)
+	if err != nil {
+		return err
+	}
+
+	// fire up request and unmarshal serverTime
+	err = HTTPDo(httpContext, request, func(response *http.Response, err error) error {
+		if err != nil {
+			return err
+		}
+		defer response.Body.Close()
+		if err := json.NewDecoder(response.Body).Decode(&wrapper); err != nil {
+			return err
+		}
+		return nil
+	})
+	return err
 }

@@ -8,7 +8,7 @@ import (
 )
 
 // GetServerTime returns serverTime
-func (session SessionContext) GetServerTime() (ServerTime, error) {
+func (session *SessionContext) GetServerTime() (ServerTime, error) {
 	var servertime struct {
 		Time ServerTime `json:"result,omitempty"`
 	}
@@ -35,4 +35,34 @@ func (session SessionContext) GetServerTime() (ServerTime, error) {
 		return nil
 	})
 	return servertime.Time, err
+}
+
+// GetAssetInfo returns the assets of kraken
+func (session *SessionContext) GetAssetInfo() (map[string]Asset, error) {
+	var assetsWrapper struct {
+		Assets map[string]Asset `json:"result,omitempty"`
+	}
+
+	// create http-Context
+	httpContext, cancelFunc := context.WithTimeout(session, 15*time.Second)
+	defer cancelFunc()
+
+	// build request
+	request, err := http.NewRequest("GET", session.Value(HostSessionContextKey).(string)+RouteAssets, nil)
+	if err != nil {
+		return assetsWrapper.Assets, err
+	}
+
+	// fire up request and unmarshal serverTime
+	err = HTTPDo(httpContext, request, func(response *http.Response, err error) error {
+		if err != nil {
+			return err
+		}
+		defer response.Body.Close()
+		if err := json.NewDecoder(response.Body).Decode(&assetsWrapper); err != nil {
+			return err
+		}
+		return nil
+	})
+	return assetsWrapper.Assets, err
 }

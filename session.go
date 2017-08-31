@@ -13,6 +13,7 @@ const (
 	HostSessionContextKey = SessionContextKey("host")
 
 	RouteServerTime = "public/Time"
+	RouteAssets     = "public/Assets"
 )
 
 // SessionContext represent a kraken session

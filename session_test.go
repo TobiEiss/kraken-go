@@ -76,3 +76,17 @@ func TestKrakenServerTime(t *testing.T) {
 	}
 	log.Println(serverTime)
 }
+
+func TestKrakenAssetInfo(t *testing.T) {
+	session := krakenGo.CreateKrakenSession()
+	assets, err := session.GetAssetInfo()
+	if err != nil {
+		log.Println(err)
+		t.Fail()
+	}
+
+	if len(assets) == 0 {
+		t.Fail()
+	}
+	log.Println(assets)
+}

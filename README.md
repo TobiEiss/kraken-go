@@ -8,3 +8,4 @@ Writen in golang.
 Currently implemented:
 
 :heavy_check_mark: Get server time
+:heavy_check_mark: Get asset info

@@ -5,5 +5,6 @@ Writen in golang.
 [![Coverage Status](https://coveralls.io/repos/github/TobiEiss/kraken-go/badge.svg?branch=master)](https://coveralls.io/github/TobiEiss/kraken-go?branch=master)
 
 
-Currently WIP.
+Currently implemented:
 
+:heavy_check_mark: Get server time

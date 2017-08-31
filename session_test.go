@@ -11,9 +11,10 @@ import (
 	"github.com/TobiEiss/kraken-go"
 )
 
-// This test simulate a server witch sleeps for 110 millis.
-// Also a request with a timeout of 100 millis.
-// If the error is not nil, there is a failure!
+// This test simulate a server witch sleeps for x millis.
+// Also a request with a timeout of y millis.
+// If server-sleep longer than timeout, expects an error.
+// If server-sleep is shorter than timeout, expects NO error.
 func TestHttpDo(t *testing.T) {
 	var testCases = []struct {
 		ServerDuration time.Duration

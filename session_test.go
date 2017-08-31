@@ -3,6 +3,7 @@ package krakenGo_test
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -60,4 +61,18 @@ func TestHttpDo(t *testing.T) {
 		}
 	}
 
+}
+
+func TestKrakenServerTime(t *testing.T) {
+	session := krakenGo.CreateKrakenSession()
+	serverTime, err := session.GetServerTime()
+	if err != nil {
+		log.Println(err)
+		t.Fail()
+	}
+
+	if serverTime.Unixtime == 0 {
+		t.Fail()
+	}
+	log.Println(serverTime)
 }

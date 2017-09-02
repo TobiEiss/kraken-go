@@ -2,28 +2,21 @@ package krakenGo
 
 // GetServerTime returns serverTime
 func (session *SessionContext) GetServerTime() (ServerTime, error) {
-	var servertimeWrapper struct {
-		ServerTime ServerTime `json:"result,omitempty"`
-	}
-	err := session.getHTTPDo(&servertimeWrapper, RouteServerTime)
-
-	return servertimeWrapper.ServerTime, err
+	servertime := ServerTime{}
+	err := session.getHTTPDo(&servertime, RouteServerTime)
+	return servertime, err
 }
 
 // GetAssetInfo returns the assets of kraken
 func (session *SessionContext) GetAssetInfo() (map[string]Asset, error) {
-	var assetsWrapper struct {
-		Assets map[string]Asset `json:"result,omitempty"`
-	}
-	err := session.getHTTPDo(&assetsWrapper, RouteAssets)
-	return assetsWrapper.Assets, err
+	assets := map[string]Asset{}
+	err := session.getHTTPDo(&assets, RouteAssets)
+	return assets, err
 }
 
 // GetAssetPairs returns all tradeable asset-pairs
 func (session *SessionContext) GetAssetPairs() (map[string]AssetPair, error) {
-	var assetpairsWrapper struct {
-		AssetPair map[string]AssetPair `json:"result,omitempty"`
-	}
-	err := session.getHTTPDo(&assetpairsWrapper, RouteAssetPairs)
-	return assetpairsWrapper.AssetPair, err
+	assetpairs := map[string]AssetPair{}
+	err := session.getHTTPDo(&assetpairs, RouteAssetPairs)
+	return assetpairs, err
 }

@@ -35,6 +35,12 @@ func CreateSession(host string) *SessionContext {
 	return &SessionContext{context.WithValue(context.Background(), HostSessionContextKey, host)}
 }
 
+// KrakenResponse is the response from kraken.com
+type KrakenResponse struct {
+	Error  []string    `json:"error"`
+	Result interface{} `json:"result"`
+}
+
 // HTTPDo function runs the HTTP request and processes its response in a new goroutine.
 func HTTPDo(ctx context.Context, request *http.Request, processResponse func(*http.Response, error) error) error {
 	// Run the HTTP request in a goroutine and pass the response to processResponse.
@@ -55,7 +61,10 @@ func HTTPDo(ctx context.Context, request *http.Request, processResponse func(*ht
 }
 
 // impl httpdo with GET-methode
-func (session *SessionContext) getHTTPDo(wrapper interface{}, route string) error {
+func (session *SessionContext) getHTTPDo(typ interface{}, route string) error {
+	var krakenResponse KrakenResponse
+	krakenResponse.Result = typ
+
 	// create http-Context
 	httpContext, cancelFunc := context.WithTimeout(session, 15*time.Second)
 	defer cancelFunc()
@@ -72,7 +81,7 @@ func (session *SessionContext) getHTTPDo(wrapper interface{}, route string) erro
 			return err
 		}
 		defer response.Body.Close()
-		if err := json.NewDecoder(response.Body).Decode(&wrapper); err != nil {
+		if err := json.NewDecoder(response.Body).Decode(&krakenResponse); err != nil {
 			return err
 		}
 		return nil

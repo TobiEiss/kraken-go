@@ -16,6 +16,7 @@ const (
 
 	RouteServerTime = "public/Time"
 	RouteAssets     = "public/Assets"
+	RouteAssetPairs = "public/AssetPairs"
 )
 
 // SessionContext represent a kraken session

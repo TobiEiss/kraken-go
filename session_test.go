@@ -90,3 +90,16 @@ func TestKrakenAssetInfo(t *testing.T) {
 	}
 	log.Println(assets)
 }
+
+func TestKrakenAssetPairs(t *testing.T) {
+	session := krakenGo.CreateKrakenSession()
+	assetpairs, err := session.GetAssetPairs()
+	if err != nil {
+		log.Println(err)
+		t.Fail()
+	}
+
+	if len(assetpairs) == 0 {
+		t.Fail()
+	}
+}

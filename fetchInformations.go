@@ -18,3 +18,12 @@ func (session *SessionContext) GetAssetInfo() (map[string]Asset, error) {
 	err := session.getHTTPDo(&assetsWrapper, RouteAssets)
 	return assetsWrapper.Assets, err
 }
+
+// GetAssetPairs returns all tradeable asset-pairs
+func (session *SessionContext) GetAssetPairs() (map[string]AssetPair, error) {
+	var assetpairsWrapper struct {
+		AssetPair map[string]AssetPair `json:"result,omitempty"`
+	}
+	err := session.getHTTPDo(&assetpairsWrapper, RouteAssetPairs)
+	return assetpairsWrapper.AssetPair, err
+}

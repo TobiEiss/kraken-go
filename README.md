@@ -9,7 +9,7 @@ Currently implemented:
 
 :heavy_check_mark: Get server time  
 :heavy_check_mark: Get asset info  
-:heavy_check_mark: Get tradable asset pairs
+:heavy_check_mark: Get tradable asset pairs  
 :heavy_check_mark: Get ticker information
 
 ## Getting started

@@ -6,6 +6,12 @@ type ServerTime struct {
 }
 
 // Asset represent an asset
+// ========================
+//
+// altname = alternate name
+// aclass = asset class
+// decimals = scaling decimal places for record keeping
+// display_decimals = scaling decimal places for output display
 type Asset struct {
 	Aclass          string `json:"aclass,omitempty"`
 	Altname         string `json:"altname,omitempty"`
@@ -14,6 +20,24 @@ type Asset struct {
 }
 
 // AssetPair are all tradeable asset pairs
+// =======================================
+//
+// altname = alternate pair name
+// aclass_base = asset class of base component
+// base = asset id of base component
+// aclass_quote = asset class of quote component
+// quote = asset id of quote component
+// lot = volume lot size
+// pair_decimals = scaling decimal places for pair
+// lot_decimals = scaling decimal places for volume
+// lot_multiplier = amount to multiply lot volume by to get currency volume
+// leverage_buy = array of leverage amounts available when buying
+// leverage_sell = array of leverage amounts available when selling
+// fees = fee schedule array in [volume, percent fee] tuples
+// fees_maker = maker fee schedule array in [volume, percent fee] tuples (if on maker/taker)
+// fee_volume_currency = volume discount currency
+// margin_call = margin call level
+// margin_stop = stop-out/liquidation margin level
 type AssetPair struct {
 	Altname           string        `json:"altname"`
 	AclassBase        string        `json:"aclass_base"`
@@ -31,4 +55,28 @@ type AssetPair struct {
 	FeeVolumeCurrency string        `json:"fee_volume_currency"`
 	MarginCall        int           `json:"margin_call"`
 	MarginStop        int           `json:"margin_stop"`
+}
+
+// TickerInfo represent the ticker info
+// ====================================
+//
+// a = ask array(<price>, <whole lot volume>, <lot volume>),
+// b = bid array(<price>, <whole lot volume>, <lot volume>),
+// c = last trade closed array(<price>, <lot volume>),
+// v = volume array(<today>, <last 24 hours>),
+// p = volume weighted average price array(<today>, <last 24 hours>),
+// t = number of trades array(<today>, <last 24 hours>),
+// l = low array(<today>, <last 24 hours>),
+// h = high array(<today>, <last 24 hours>),
+// o = today's opening price
+type TickerInfo struct {
+	A []string `json:"a"`
+	B []string `json:"b"`
+	C []string `json:"c"`
+	V []string `json:"v"`
+	P []string `json:"p"`
+	T []int    `json:"t"`
+	L []string `json:"l"`
+	H []string `json:"h"`
+	O string   `json:"o"`
 }

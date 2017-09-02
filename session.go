@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"net/url"
+	"strings"
 	"time"
 )
 
@@ -17,6 +19,7 @@ const (
 	RouteServerTime = "public/Time"
 	RouteAssets     = "public/Assets"
 	RouteAssetPairs = "public/AssetPairs"
+	RouteTickerInfo = "public/Ticker"
 )
 
 // SessionContext represent a kraken session
@@ -61,7 +64,7 @@ func HTTPDo(ctx context.Context, request *http.Request, processResponse func(*ht
 }
 
 // impl httpdo with GET-methode
-func (session *SessionContext) getHTTPDo(typ interface{}, route string) error {
+func (session *SessionContext) getHTTPDo(typ interface{}, route string, values url.Values) error {
 	var krakenResponse KrakenResponse
 	krakenResponse.Result = typ
 
@@ -70,7 +73,15 @@ func (session *SessionContext) getHTTPDo(typ interface{}, route string) error {
 	defer cancelFunc()
 
 	// build request
-	request, err := http.NewRequest("GET", session.Value(HostSessionContextKey).(string)+route, nil)
+	request, err := func() (*http.Request, error) {
+		if values != nil {
+			return http.NewRequest(
+				"POST",
+				session.Value(HostSessionContextKey).(string)+route,
+				strings.NewReader(values.Encode()))
+		}
+		return http.NewRequest("GET", session.Value(HostSessionContextKey).(string)+route, nil)
+	}()
 	if err != nil {
 		return err
 	}

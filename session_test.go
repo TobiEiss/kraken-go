@@ -103,3 +103,16 @@ func TestKrakenAssetPairs(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestGetTickerInfo(t *testing.T) {
+	session := krakenGo.CreateKrakenSession()
+	tickerInfo, err := session.GetTickerInfo("BCHXBT")
+	if err != nil {
+		log.Println(err)
+		t.Fail()
+	}
+
+	if len(tickerInfo) == 0 {
+		t.Fail()
+	}
+}

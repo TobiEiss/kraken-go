@@ -8,21 +8,21 @@ import (
 // GetServerTime returns serverTime
 func (session *SessionContext) GetServerTime() (ServerTime, error) {
 	servertime := ServerTime{}
-	err := session.query(&servertime, RouteServerTime, nil)
+	err := session.query(&servertime, RouteServerTime, nil, nil)
 	return servertime, err
 }
 
 // GetAssetInfo returns the assets of kraken
 func (session *SessionContext) GetAssetInfo() (map[string]Asset, error) {
 	assets := map[string]Asset{}
-	err := session.query(&assets, RouteAssets, nil)
+	err := session.query(&assets, RouteAssets, nil, nil)
 	return assets, err
 }
 
 // GetAssetPairs returns all tradeable asset-pairs
 func (session *SessionContext) GetAssetPairs() (map[string]AssetPair, error) {
 	assetpairs := map[string]AssetPair{}
-	err := session.query(&assetpairs, RouteAssetPairs, nil)
+	err := session.query(&assetpairs, RouteAssetPairs, nil, nil)
 	return assetpairs, err
 }
 
@@ -32,6 +32,6 @@ func (session *SessionContext) GetTickerInfo(pairs ...string) (map[string]Ticker
 	err := session.query(
 		&tickerInfo,
 		RouteTickerInfo,
-		url.Values{"pair": {strings.Join(pairs, ",")}})
+		url.Values{"pair": {strings.Join(pairs, ",")}}, nil)
 	return tickerInfo, err
 }

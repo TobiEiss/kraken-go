@@ -5,12 +5,15 @@ Writen in golang.
 [![Coverage Status](https://coveralls.io/repos/github/TobiEiss/kraken-go/badge.svg?branch=master)](https://coveralls.io/github/TobiEiss/kraken-go?branch=master)
 
 
-Currently implemented:
-
+###Currently implemented:
+##Public:
 :heavy_check_mark: Get server time  
 :heavy_check_mark: Get asset info  
 :heavy_check_mark: Get tradable asset pairs  
 :heavy_check_mark: Get ticker information
+
+##Private:
+:heavy_check_mark: Get Balance  
 
 ## Getting started
 

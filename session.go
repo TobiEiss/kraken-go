@@ -20,22 +20,39 @@ const (
 	RouteAssets     = "public/Assets"
 	RouteAssetPairs = "public/AssetPairs"
 	RouteTickerInfo = "public/Ticker"
+
+	RouteAccountBalance = "private/Balance"
 )
 
 // SessionContext represent a kraken session
 type SessionContext struct {
 	context.Context
+	Host      string
+	Version   string
+	APIKey    string
+	APISecret string
 }
 
 // CreateKrakenSession creates a session with host-kraken
 func CreateKrakenSession() *SessionContext {
-	krakenHost := "https://api.kraken.com/0/"
-	return CreateSession(krakenHost)
+	krakenHost := "https://api.kraken.com"
+	krakenVersion := "/0/"
+	return CreateSession(krakenHost, krakenVersion)
 }
 
 // CreateSession and set your own host. For example for your tests
-func CreateSession(host string) *SessionContext {
-	return &SessionContext{context.WithValue(context.Background(), HostSessionContextKey, host)}
+func CreateSession(host string, version string) *SessionContext {
+	return &SessionContext{
+		Context: context.Background(),
+		Host:    host,
+		Version: version,
+	}
+}
+
+// UsePrivateAPI for private-API you need the API-Key and the API-Secret
+func (session *SessionContext) UsePrivateAPI(apiKey string, apiSecret string) {
+	session.APIKey = apiKey
+	session.APISecret = apiSecret
 }
 
 // KrakenResponse is the response from kraken.com
@@ -64,9 +81,12 @@ func HTTPDo(ctx context.Context, request *http.Request, processResponse func(*ht
 }
 
 // query the api
-func (session *SessionContext) query(typ interface{}, route string, values url.Values) error {
+func (session *SessionContext) query(typ interface{}, route string, values url.Values, header map[string]string) error {
 	var krakenResponse KrakenResponse
 	krakenResponse.Result = typ
+
+	// create httpURL
+	httpURL := session.Host + session.Version + route
 
 	// create http-Context
 	httpContext, cancelFunc := context.WithTimeout(session, 15*time.Second)
@@ -75,15 +95,17 @@ func (session *SessionContext) query(typ interface{}, route string, values url.V
 	// build request
 	request, err := func() (*http.Request, error) {
 		if values != nil {
-			return http.NewRequest(
-				"POST",
-				session.Value(HostSessionContextKey).(string)+route,
-				strings.NewReader(values.Encode()))
+			return http.NewRequest("POST", httpURL, strings.NewReader(values.Encode()))
 		}
-		return http.NewRequest("GET", session.Value(HostSessionContextKey).(string)+route, nil)
+		return http.NewRequest("GET", httpURL, nil)
 	}()
 	if err != nil {
 		return err
+	}
+
+	// add header if necessary
+	for key, value := range header {
+		request.Header.Add(key, value)
 	}
 
 	// fire up request and unmarshal serverTime

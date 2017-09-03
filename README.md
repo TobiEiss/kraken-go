@@ -6,13 +6,13 @@ Writen in golang.
 
 
 ### Currently implemented:
-## Public:
+#### Public:
 :heavy_check_mark: Get server time  
 :heavy_check_mark: Get asset info  
 :heavy_check_mark: Get tradable asset pairs  
 :heavy_check_mark: Get ticker information
 
-## Private:
+#### Private:
 :heavy_check_mark: Get Balance  
 
 ## Getting started

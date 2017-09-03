@@ -63,8 +63,8 @@ func HTTPDo(ctx context.Context, request *http.Request, processResponse func(*ht
 	}
 }
 
-// impl httpdo with GET-methode
-func (session *SessionContext) getHTTPDo(typ interface{}, route string, values url.Values) error {
+// query the api
+func (session *SessionContext) query(typ interface{}, route string, values url.Values) error {
 	var krakenResponse KrakenResponse
 	krakenResponse.Result = typ
 

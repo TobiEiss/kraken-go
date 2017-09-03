@@ -37,8 +37,18 @@ func main() {
 	// get server-time
 	serverTime, err := session.GetServerTime()
 	if err != nil {
-		log.Println(err)
+        panic(err)
 	}
 	log.Printf("Unix-ServerTime on kraken.com: %d", serverTime.Unixtime)
+
+    // add private API-key and secret
+    session.UsePrivateAPI("API-key", "API-Secret")
+
+    // get balance
+    accountBalance, err := session.AccountBalance()
+	log.Println(accountBalance)
+	if err != nil {
+		panic(err)
+	}
 }
 ```

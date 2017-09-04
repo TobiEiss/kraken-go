@@ -22,6 +22,7 @@ const (
 	RouteTickerInfo = "public/Ticker"
 
 	RouteAccountBalance = "private/Balance"
+	RouteOpenOrders     = "private/OpenOrders"
 )
 
 // SessionContext represent a kraken session

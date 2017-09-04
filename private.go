@@ -48,3 +48,10 @@ func (session *SessionContext) AccountBalance() (map[Currency]string, error) {
 	err := session.queryPrivate(&balance, RouteAccountBalance, nil)
 	return balance, err
 }
+
+// OpenOrders TODO: create model
+func (session *SessionContext) OpenOrders() (map[string]map[string]interface{}, error) {
+	var orders map[string]map[string]interface{}
+	err := session.queryPrivate(&orders, RouteOpenOrders, nil)
+	return orders, err
+}

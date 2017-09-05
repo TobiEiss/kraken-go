@@ -113,3 +113,34 @@ type TickerInfo struct {
 	H []string `json:"h"`
 	O string   `json:"o"`
 }
+
+// OpenOrders wraps orders
+type OpenOrders struct {
+	Orders map[string]Order `json:"open"`
+}
+
+// Order represent an order
+type Order struct {
+	Refid    interface{} `json:"refid"`
+	Userref  interface{} `json:"userref"`
+	Status   string      `json:"status"`
+	Opentm   float64     `json:"opentm"`
+	Starttm  int         `json:"starttm"`
+	Expiretm int         `json:"expiretm"`
+	Descr    struct {
+		Pair      string `json:"pair"`
+		Type      string `json:"type"`
+		Ordertype string `json:"ordertype"`
+		Price     string `json:"price"`
+		Price2    string `json:"price2"`
+		Leverage  string `json:"leverage"`
+		Order     string `json:"order"`
+	} `json:"descr"`
+	Vol     string `json:"vol"`
+	VolExec string `json:"vol_exec"`
+	Cost    string `json:"cost"`
+	Fee     string `json:"fee"`
+	Price   string `json:"price"`
+	Misc    string `json:"misc"`
+	Oflags  string `json:"oflags"`
+}

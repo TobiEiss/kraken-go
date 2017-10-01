@@ -55,3 +55,10 @@ func (session *SessionContext) OpenOrders() (OpenOrders, error) {
 	err := session.queryPrivate(&orders, RouteOpenOrders, nil)
 	return orders, err
 }
+
+// ClosedOrders return all closed orders
+func (session *SessionContext) ClosedOrders() (ClosedOrders, error) {
+	var orders ClosedOrders
+	err := session.queryPrivate(&orders, RouteClosedOrders, nil)
+	return orders, err
+}

@@ -23,6 +23,7 @@ const (
 
 	RouteAccountBalance = "private/Balance"
 	RouteOpenOrders     = "private/OpenOrders"
+	RouteClosedOrders   = "private/ClosedOrders"
 )
 
 // SessionContext represent a kraken session
@@ -115,7 +116,9 @@ func (session *SessionContext) query(typ interface{}, route string, values url.V
 			return err
 		}
 		defer response.Body.Close()
-		if err := json.NewDecoder(response.Body).Decode(&krakenResponse); err != nil {
+		decoder := json.NewDecoder(response.Body)
+		decoder.UseNumber()
+		if err := decoder.Decode(&krakenResponse); err != nil {
 			return err
 		}
 		return nil

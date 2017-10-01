@@ -1,5 +1,11 @@
 package krakenGo
 
+import (
+	"strconv"
+	"strings"
+	"time"
+)
+
 type Currency string
 
 // Currencies
@@ -114,9 +120,35 @@ type TickerInfo struct {
 	O string   `json:"o"`
 }
 
+// JSONTime represent the time-stuff
+type JSONTime time.Time
+
+// MarshalJSON overides the marshal methode of time
+func (t JSONTime) MarshalJSON() ([]byte, error) {
+	return []byte(strconv.FormatInt(time.Time(t).Unix(), 10)), nil
+}
+
+// UnmarshalJSON overides the unmarshal methode of time
+func (t *JSONTime) UnmarshalJSON(s []byte) (err error) {
+	r := strings.Replace(string(s), `"`, ``, -1)
+	r = strings.Split(string(s), ".")[0]
+
+	q, err := strconv.ParseInt(r, 10, 64)
+	if err != nil {
+		return err
+	}
+	*(*time.Time)(t) = time.Unix(q, 0)
+	return
+}
+
 // OpenOrders wraps orders
 type OpenOrders struct {
 	Orders map[string]Order `json:"open"`
+}
+
+// ClosedOrders wraps orders
+type ClosedOrders struct {
+	Orders map[string]Order `json:"closed"`
 }
 
 // Order represent an order
@@ -124,9 +156,9 @@ type Order struct {
 	Refid    interface{} `json:"refid"`
 	Userref  interface{} `json:"userref"`
 	Status   string      `json:"status"`
-	Opentm   float64     `json:"opentm"`
-	Starttm  int         `json:"starttm"`
-	Expiretm int         `json:"expiretm"`
+	Opentm   JSONTime    `json:"opentm"`
+	Starttm  JSONTime    `json:"starttm"`
+	Expiretm JSONTime    `json:"expiretm"`
 	Descr    struct {
 		Pair      string `json:"pair"`
 		Type      string `json:"type"`

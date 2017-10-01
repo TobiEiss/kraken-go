@@ -14,6 +14,8 @@ Writen in golang.
 
 #### Private:
 :heavy_check_mark: Get Balance  
+:heavy_check_mark: Get Open Orders  
+:heavy_check_mark: Get Closed Orders  
 
 ## Getting started
 

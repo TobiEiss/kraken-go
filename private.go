@@ -68,3 +68,9 @@ func (session *SessionContext) TradesHistory() (Trades, error) {
 	err := session.queryPrivate(&tradesHistory, RouteTradesHistory, nil)
 	return tradesHistory, err
 }
+
+func (session *SessionContext) LedgersInfo() (Ledger, error) {
+	var ledger Ledger
+	err := session.queryPrivate(&ledger, RouteLedgersInfo, nil)
+	return ledger, err
+}

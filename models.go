@@ -177,6 +177,23 @@ type Order struct {
 	Oflags  string `json:"oflags"`
 }
 
+// Ledger contains all Ledger-Entries
+type Ledger struct {
+	LedgerEntries map[string]LedgerEntry `json:"ledger"`
+}
+
+// LedgerEntry represent a ledger entry
+type LedgerEntry struct {
+	Refid   string  `json:"refid"`
+	Time    float64 `json:"time"`
+	Type    string  `json:"type"`
+	Aclass  string  `json:"aclass"`
+	Asset   string  `json:"asset"`
+	Amount  string  `json:"amount"`
+	Fee     string  `json:"fee"`
+	Balance string  `json:"balance"`
+}
+
 // Trades hold a map of id to trade
 type Trades struct {
 	Trades map[string]Trade `json:"trades"`

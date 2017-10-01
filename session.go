@@ -25,6 +25,7 @@ const (
 	RouteOpenOrders     = "private/OpenOrders"
 	RouteClosedOrders   = "private/ClosedOrders"
 	RouteTradesHistory  = "private/TradesHistory"
+	RouteLedgersInfo    = "private/Ledgers"
 )
 
 // SessionContext represent a kraken session

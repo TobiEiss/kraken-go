@@ -176,3 +176,23 @@ type Order struct {
 	Misc    string `json:"misc"`
 	Oflags  string `json:"oflags"`
 }
+
+// Trades hold a map of id to trade
+type Trades struct {
+	Trades map[string]Trade `json:"trades"`
+}
+
+// Trade represent a trade
+type Trade struct {
+	Ordertxid string   `json:"ordertxid"`
+	Pair      string   `json:"pair"`
+	Time      JSONTime `json:"time"`
+	Type      string   `json:"type"`
+	Ordertype string   `json:"ordertype"`
+	Price     string   `json:"price"`
+	Cost      string   `json:"cost"`
+	Fee       string   `json:"fee"`
+	Vol       string   `json:"vol"`
+	Margin    string   `json:"margin"`
+	Misc      string   `json:"misc"`
+}

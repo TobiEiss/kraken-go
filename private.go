@@ -62,3 +62,9 @@ func (session *SessionContext) ClosedOrders() (ClosedOrders, error) {
 	err := session.queryPrivate(&orders, RouteClosedOrders, nil)
 	return orders, err
 }
+
+func (session *SessionContext) TradesHistory() (Trades, error) {
+	var tradesHistory Trades
+	err := session.queryPrivate(&tradesHistory, RouteTradesHistory, nil)
+	return tradesHistory, err
+}

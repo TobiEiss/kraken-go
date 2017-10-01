@@ -24,6 +24,7 @@ const (
 	RouteAccountBalance = "private/Balance"
 	RouteOpenOrders     = "private/OpenOrders"
 	RouteClosedOrders   = "private/ClosedOrders"
+	RouteTradesHistory  = "private/TradesHistory"
 )
 
 // SessionContext represent a kraken session

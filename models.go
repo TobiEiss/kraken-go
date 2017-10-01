@@ -184,14 +184,14 @@ type Ledger struct {
 
 // LedgerEntry represent a ledger entry
 type LedgerEntry struct {
-	Refid   string  `json:"refid"`
-	Time    float64 `json:"time"`
-	Type    string  `json:"type"`
-	Aclass  string  `json:"aclass"`
-	Asset   string  `json:"asset"`
-	Amount  string  `json:"amount"`
-	Fee     string  `json:"fee"`
-	Balance string  `json:"balance"`
+	Refid   string   `json:"refid"`
+	Time    JSONTime `json:"time"`
+	Type    string   `json:"type"`
+	Aclass  string   `json:"aclass"`
+	Asset   string   `json:"asset"`
+	Amount  string   `json:"amount"`
+	Fee     string   `json:"fee"`
+	Balance string   `json:"balance"`
 }
 
 // Trades hold a map of id to trade

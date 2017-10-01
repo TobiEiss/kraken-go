@@ -69,8 +69,13 @@ func (session *SessionContext) TradesHistory() (Trades, error) {
 	return tradesHistory, err
 }
 
-func (session *SessionContext) LedgersInfo() (Ledger, error) {
+func (session *SessionContext) LedgersInfo(typ string) (Ledger, error) {
 	var ledger Ledger
-	err := session.queryPrivate(&ledger, RouteLedgersInfo, nil)
+	var err error
+	if typ == "" {
+		err = session.queryPrivate(&ledger, RouteLedgersInfo, nil)
+	} else {
+		err = session.queryPrivate(&ledger, RouteLedgersInfo, url.Values{"type": {typ}})
+	}
 	return ledger, err
 }

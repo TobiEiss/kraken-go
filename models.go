@@ -1,6 +1,7 @@
 package krakenGo
 
 import (
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -212,4 +213,31 @@ type Trade struct {
 	Vol       string   `json:"vol"`
 	Margin    string   `json:"margin"`
 	Misc      string   `json:"misc"`
+}
+
+// SortTrades returns a TradeSlice sorted by time
+func (trades Trades) SortTrades() TradeSlice {
+	// map from map of trades to tradeSlice
+	tradeSlice := TradeSlice{}
+	for _, t := range trades.Trades {
+		tradeSlice = append(tradeSlice, t)
+	}
+
+	// sort
+	sort.Sort(tradeSlice)
+	return tradeSlice
+}
+
+type TradeSlice []Trade
+
+func (p TradeSlice) Len() int {
+	return len(p)
+}
+
+func (p TradeSlice) Less(i, j int) bool {
+	return time.Time(p[i].Time).Before(time.Time(p[j].Time))
+}
+
+func (p TradeSlice) Swap(i, j int) {
+	p[i], p[j] = p[j], p[i]
 }
